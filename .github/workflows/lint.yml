@@ -1,0 +1,21 @@
+name: Lint
+on:
+  push:
+    branches:
+      - master
+      - main
+  pull_request:
+    paths:
+      - 'Makefile'
+      - '**.md'
+      - '**/.markdownlint.*'
+      - '**/github/workflows/lint.yml'
+jobs:
+  markdown:
+    runs-on: ubuntu-latest
+    container:
+      image: node:15.14-alpine
+    steps:
+      - uses: actions/checkout@master
+      - run: apk upgrade && apk add --no-cache make bash
+      - run: make lint-markdown
